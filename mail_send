@@ -1,0 +1,30 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+# Email details
+sender_email = "Enter Sender mail"
+receiver_email = "enter reciver mail"
+app_password = "enter your app password"  # Use App Password if using Gmail
+
+subject = "Test Email from Python"
+body = "Hello, this is a test email sent from Python!"
+
+# Create the email message
+msg = MIMEMultipart()
+msg['From'] = sender_email
+msg['To'] = receiver_email
+msg['Subject'] = subject
+
+msg.attach(MIMEText(body, 'plain'))
+
+# Send the email
+try:
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(sender_email, app_password)
+    server.sendmail(sender_email, receiver_email, msg.as_string())
+    server.quit()
+    print("✅ Email sent successfully!")
+except Exception as e:
+    print("❌ Failed to send email:", e)
